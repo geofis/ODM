@@ -61,6 +61,8 @@ class ODMOpenMVSStage(types.ODM_Stage):
             log.ODM_INFO("Estimating depthmaps")
             number_views_fuse = 2
             densify_ini_file = os.path.join(tree.openmvs, 'Densify.ini')
+            with open(densify_ini_file, 'w+') as f:
+                f.write('Min Views Filter = 1\n')
             subres_levels = 2 # The number of lower resolutions to process before estimating output resolution depthmap.
             filter_point_th = -20
 
@@ -93,7 +95,7 @@ class ODMOpenMVSStage(types.ODM_Stage):
             if masks:
                 extra_config.append("--ignore-mask-label 0")
 
-            with open(densify_ini_file, 'w+') as f:
+            with open(densify_ini_file, 'a+') as f:
                 f.write("Optimize = 7\n")
 
             def run_densify():
